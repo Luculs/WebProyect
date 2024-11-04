@@ -10,15 +10,6 @@ export const loginUser = async (req, res) => {
     // Busca al usuario por email
     const [user] = await connection.query('SELECT * FROM usuario WHERE idU = ?', [idU]);
 
-    // Esto funciona para las contrasenas directamente sin hash
-
-    // if (user.length === 0 || user[0].contraseña !== contraseña) {
-    //   return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
-    // }
-    // if (user.length === 0) {
-    //   return res.status(400).json({ message: 'Email o contraseña incorrectos' });
-    // }
-
     // Compara la contraseña ingresada con el hash almacenado
     const isPasswordValid = await bcrypt.compare(contraseña, user[0].contraseña);
     if (!isPasswordValid) {
